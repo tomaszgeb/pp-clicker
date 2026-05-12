@@ -1,0 +1,29 @@
+# build
+build/
+cmake-build-*/
+out/
+bin/
+obj/
+
+# pliki obiektowe
+*.o
+*.obj
+*.exe
+*.out
+*.app
+
+# baza sqlite
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+CMakeLists.txt.user
+
+# OS
+.DS_Store
+Thumbs.db
