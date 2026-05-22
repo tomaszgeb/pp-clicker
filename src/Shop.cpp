@@ -52,6 +52,15 @@ int Shop::aktualnaCena(int idx) {
 }
 
 bool Shop::kup(int idx) {
-    //TODO
-    return false;
+    if(idx < 0 || idx >= (int)itemy.size()) return false;
+
+    int cena = aktualnaCena(idx);
+    if(gra->getPunkty() < cena) return false;//brak punktow
+
+    gra->odejmijPunkty(cena);
+    ItemSklepu &it = itemy[idx];
+    gra->dodajMocKliku(it.dodajMocyKliku);
+    gra->dodajDochodPasywny(it.dodajDochoduPasywnego);
+    it.ilePosiadanych++;
+    return true;
 }
