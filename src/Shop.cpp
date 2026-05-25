@@ -47,8 +47,11 @@ ItemSklepu Shop::getItem(int idx) {
 }
 
 int Shop::aktualnaCena(int idx) {
-    //TODO: dorobic mnoznik z Lawki troski - chwilowo bez
-    return itemy[idx].bazowaCena;
+    ItemSklepu &it = itemy[idx];
+    // cena = bazowa * 1.15^ilePosiadanych * mnoznikCen
+    double cena = it.bazowaCena * pow(1.15, it.ilePosiadanych);
+    cena *= gra->getMnoznikCen();//mnoznik z Lawki troski
+    return (int)cena;
 }
 
 bool Shop::kup(int idx) {
