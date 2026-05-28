@@ -5,11 +5,18 @@ Game::Game() {
     punkty = 0;
     ects = 0;
     mocKliku = 1;
+    dochodPasywny = 0;
 }
 
 // jeden klik = dodaj mocKliku punktow
 void Game::klik() {
     punkty += mocKliku;
+}
+
+// dochod pasywny - co 1s timer to wola
+// timer pisze Janek u siebie w Timer.cpp
+void Game::tickPasywny() {
+    punkty += dochodPasywny;
 }
 
 // kupowanie ECTS za punkty - za 1000 pkt 1 ECTS
@@ -31,4 +38,8 @@ int Game::getPunkty() {
 
 int Game::getEcts() {
     return ects;
+}
+
+int Game::getDochodPasywny() {
+    return dochodPasywny;
 }
