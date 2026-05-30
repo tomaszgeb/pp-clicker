@@ -43,3 +43,25 @@ int Game::getEcts() {
 int Game::getDochodPasywny() {
     return dochodPasywny;
 }
+
+int Game::getMocKliku() {
+    return mocKliku;
+}
+
+// settery - sklep i zdarzenia losowe ich uzywaja
+void Game::dodajPunkty(int ile) {
+    punkty += ile;
+}
+
+void Game::odejmijPunkty(int ile) {
+    punkty -= ile;
+    if(punkty < 0) punkty = 0;//nie chcemy ujemnych punktow
+}
+
+void Game::dodajMocKliku(int ile) {
+    mocKliku += ile;
+}
+
+void Game::dodajDochodPasywny(int ile) {
+    dochodPasywny += ile;
+}

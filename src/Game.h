@@ -15,6 +15,13 @@ public:
     int getPunkty();
     int getEcts();
     int getDochodPasywny();
+    int getMocKliku();
+
+    // settery do uzywania przez sklep Kuby i zdarzenia losowe
+    void dodajPunkty(int ile);
+    void odejmijPunkty(int ile);
+    void dodajMocKliku(int ile);
+    void dodajDochodPasywny(int ile);
 
 private:
     int punkty;
