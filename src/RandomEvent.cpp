@@ -25,16 +25,25 @@ TypZdarzenia RandomEvent::losujZdarzenie() {
 
 void RandomEvent::aplikuj(Game &g, TypZdarzenia typ) {
     switch(typ) {
+        case AFERA_BUDZIKOWA:
+            // moc klika polowa na 30 sekund
+            g.aktywujEfektPolowicznegoKliku(30);
+            break;
+        case PODEJRZENIA_ZENONA:
+            // tracisz 35% ECTS
+            g.odejmijEcts((int)(g.getEcts() * 0.35));
+            break;
         case PRZEWOD_JAKUBA:
             // -10% punktow
             g.odejmijPunkty((int)(g.getPunkty() * 0.10));
             break;
-        // TODO: reszta zdarzen - musze dorobic API w Game
-        case AFERA_BUDZIKOWA:
-        case PODEJRZENIA_ZENONA:
         case KLATWA_GRUPY_2:
+            // dochod pasywny = 0 do poprawki
+            g.aktywujKlatwe();
+            break;
         case LAWKA_TROSKI:
-            //narazie placeholder
+            // sklep drozszy - mnoznik bedzie w kolejnym commicie
+            //TODO mnoznikCen
             break;
     }
 }

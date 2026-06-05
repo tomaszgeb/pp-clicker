@@ -20,14 +20,27 @@ public:
     // settery do uzywania przez sklep Kuby i zdarzenia losowe
     void dodajPunkty(int ile);
     void odejmijPunkty(int ile);
+    void odejmijEcts(int ile);
     void dodajMocKliku(int ile);
     void dodajDochodPasywny(int ile);
+
+    // efekty czasowe (afera budzikowa - 30s polowiczny klik)
+    void aktywujEfektPolowicznegoKliku(int sekund);
+    void tickEfektyCzasowe();// timer Janka wola co 1s
+
+    // klatwa grupy 2 - dochod pasywny zerowany
+    void aktywujKlatwe();
+    void zdejmijKlatwe();
+    bool czyKlatwa();
 
 private:
     int punkty;
     int ects;
     int mocKliku;//ile dodaje jeden klik domyslnie 1
     int dochodPasywny;//ile dodaje sie co sekunde
+
+    int sekundyPolowicznegoKliku;//licznik efektu afery budzikowej
+    bool klatwa;
 
     static const int CENA_ECTS = 1000;
     static const int CEL_ECTS = 210;

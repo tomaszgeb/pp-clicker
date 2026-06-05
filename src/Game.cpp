@@ -6,16 +6,25 @@ Game::Game() {
     ects = 0;
     mocKliku = 1;
     dochodPasywny = 0;
+    sekundyPolowicznegoKliku = 0;
+    klatwa = false;
 }
 
 // jeden klik = dodaj mocKliku punktow
+// jezeli afera budzikowa aktywna to polowiczne
 void Game::klik() {
-    punkty += mocKliku;
+    if(sekundyPolowicznegoKliku > 0) {
+        punkty += mocKliku / 2;//div calkowite - jak 1 to 0 trudno
+    } else {
+        punkty += mocKliku;
+    }
 }
 
 // dochod pasywny - co 1s timer to wola
 // timer pisze Janek u siebie w Timer.cpp
+// klatwa zeruje dochod
 void Game::tickPasywny() {
+    if(klatwa) return;
     punkty += dochodPasywny;
 }
 
@@ -64,4 +73,34 @@ void Game::dodajMocKliku(int ile) {
 
 void Game::dodajDochodPasywny(int ile) {
     dochodPasywny += ile;
+}
+
+// odejmowanie ECTS - Zenon zabiera 35%
+void Game::odejmijEcts(int ile) {
+    ects -= ile;
+    if(ects < 0) ects = 0;
+}
+
+// afera budzikowa - aktywuj efekt na X sekund
+void Game::aktywujEfektPolowicznegoKliku(int sekund) {
+    sekundyPolowicznegoKliku = sekund;
+}
+
+// timer Janka co 1s wola - odejmujemy sekunde od efektu
+void Game::tickEfektyCzasowe() {
+    if(sekundyPolowicznegoKliku > 0) {
+        sekundyPolowicznegoKliku--;
+    }
+}
+
+void Game::aktywujKlatwe() {
+    klatwa = true;
+}
+
+void Game::zdejmijKlatwe() {
+    klatwa = false;
+}
+
+bool Game::czyKlatwa() {
+    return klatwa;
 }
