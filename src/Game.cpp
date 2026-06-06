@@ -8,6 +8,7 @@ Game::Game() {
     dochodPasywny = 0;
     sekundyPolowicznegoKliku = 0;
     klatwa = false;
+    mnoznikCen = 1.0;
 }
 
 // jeden klik = dodaj mocKliku punktow
@@ -103,4 +104,13 @@ void Game::zdejmijKlatwe() {
 
 bool Game::czyKlatwa() {
     return klatwa;
+}
+
+double Game::getMnoznikCen() {
+    return mnoznikCen;
+}
+
+// Lawka troski mnozy ceny w sklepie
+void Game::ustawMnoznikCen(double m) {
+    mnoznikCen = m;
 }

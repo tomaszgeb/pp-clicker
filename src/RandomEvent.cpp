@@ -42,8 +42,8 @@ void RandomEvent::aplikuj(Game &g, TypZdarzenia typ) {
             g.aktywujKlatwe();
             break;
         case LAWKA_TROSKI:
-            // sklep drozszy - mnoznik bedzie w kolejnym commicie
-            //TODO mnoznikCen
+            // sklep drozszy o 25%
+            g.ustawMnoznikCen(g.getMnoznikCen() * 1.25);
             break;
     }
 }

@@ -16,6 +16,7 @@ public:
     int getEcts();
     int getDochodPasywny();
     int getMocKliku();
+    double getMnoznikCen();// 1.0 normalnie, wiecej po Lawce troski
 
     // settery do uzywania przez sklep Kuby i zdarzenia losowe
     void dodajPunkty(int ile);
@@ -23,6 +24,7 @@ public:
     void odejmijEcts(int ile);
     void dodajMocKliku(int ile);
     void dodajDochodPasywny(int ile);
+    void ustawMnoznikCen(double m);
 
     // efekty czasowe (afera budzikowa - 30s polowiczny klik)
     void aktywujEfektPolowicznegoKliku(int sekund);
@@ -41,6 +43,7 @@ private:
 
     int sekundyPolowicznegoKliku;//licznik efektu afery budzikowej
     bool klatwa;
+    double mnoznikCen;//1.0 standard, > 1.0 po Lawce troski
 
     static const int CENA_ECTS = 1000;
     static const int CEL_ECTS = 210;
