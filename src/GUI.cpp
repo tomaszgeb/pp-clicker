@@ -32,6 +32,31 @@ void GUI::obsluzZdarzenia() {
     sf::Event e;
     while(okno.pollEvent(e)) {
         if(e.type == sf::Event::Closed) okno.close();
+
+        if(e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left) {
+            int x = e.mouseButton.x;
+            int y = e.mouseButton.y;
+
+            // klikniecie w logo PP (kolo srodek 400,250 promien 100)
+            int dx = x - 400;
+            int dy = y - 250;
+            if(dx*dx + dy*dy < 100*100) {
+                gra->klik();
+            }
+
+            // klik w przyciski sklepu (z prawej, w pionie)
+            for(int i = 0; i < sklep->liczbaItemow(); i++) {
+                int yi = 50 + i * 80;
+                if(x > 600 && x < 780 && y > yi && y < yi + 70) {
+                    sklep->kup(i);//jak nie ma punktow to zwroci false ale nic sie nie stanie
+                }
+            }
+
+            // klik w "kup ECTS" - lewy dolny rog
+            if(x > 50 && x < 200 && y > 500 && y < 550) {
+                gra->kupECTS();
+            }
+        }
     }
 }
 
