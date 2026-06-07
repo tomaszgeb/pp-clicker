@@ -49,17 +49,38 @@ void RandomEvent::aplikuj(Game &g, TypZdarzenia typ) {
 }
 
 std::string RandomEvent::opisDlaUI(TypZdarzenia typ) {
+    // pelne teksty z prezentacji - lore PP
     switch(typ) {
         case AFERA_BUDZIKOWA:
-            return "Afera budzikowa u Adama D. Moc klika -50% na 30s.";
+            return "AFERA BUDZIKOWA U ADAMA D.\n\n"
+                   "Prowadzacy stwierdza: 'Nie kazdy musi byc\n"
+                   "inzynierem, tym bardziej ci, co nie potrafia\n"
+                   "wyciszyc budzika na egzaminie w sesji'.\n\n"
+                   "KARA: Moc klikniecia spada o 50% na 30 sekund.";
         case PODEJRZENIA_ZENONA:
-            return "Podejrzenia Zenona Z. Tracisz 35% ECTS.";
+            return "PODEJRZENIA ZENONA Z.\n\n"
+                   "'Mam co do Pana pewne podejrzenia'.\n\n"
+                   "Na kazdym kolosie i egzaminie w sesji\n"
+                   "gwarantowana pierwsza lawka.\n\n"
+                   "KARA: Tracisz 35% punktow ECTS.";
         case PRZEWOD_JAKUBA:
-            return "Latajacy przewod Jakuba K. Tracisz 10% punktow.";
+            return "LATAJACY PRZEWOD JAKUBA K.\n\n"
+                   "Zostales trafiony przewodem.\n\n"
+                   "KARA: Tracisz 10% zgromadzonych punktow.";
         case KLATWA_GRUPY_2:
-            return "Klatwa Grupy nr 2. Dochod pasywny = 0.";
+            return "KLATWA GRUPY NR 2\n\n"
+                   "Macie zadanie z 15-minutowej wzmianki\n"
+                   "z 6 wykladu. Zdaja 2 osoby z 30.\n"
+                   "W tle slyszysz: 'To bylo banalnie proste,\n"
+                   "jak ktos tego nie zrobil oznacza, ze od\n"
+                   "pazdziernika nie uczyl sie nic!'\n\n"
+                   "KARA: Dochod pasywny = 0 do poprawki.";
         case LAWKA_TROSKI:
-            return "Lawka specjalnej troski. Sklep drozszy.";
+            return "LAWKA SPECJALNEJ TROSKI\n\n"
+                   "Zostales wybrany do tablicy na RRiPC.\n"
+                   "Prowadzaca zapamietala cie jako gamonia.\n\n"
+                   "KARA: Wszystkie przedmioty w sklepie\n"
+                   "sa od teraz drozsze o 25%.";
     }
     return "";
 }
