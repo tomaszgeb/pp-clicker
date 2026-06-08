@@ -58,7 +58,22 @@ bool Database::init() {
 }
 
 bool Database::zapiszStanGry(Game &g) {
-    //TODO
+    sqlite3 *handle = (sqlite3*)db;
+    // kasujemy stary wpis i wpisujemy nowy
+    sqlite3_exec(handle, "DELETE FROM stan_gry;", 0, 0, 0);
+
+    char sql[512];
+    snprintf(sql, sizeof(sql),
+        "INSERT INTO stan_gry (id, punkty, ects, moc_kliku, dochod_pasywny) "
+        "VALUES (1, %d, %d, %d, %d);",
+        g.getPunkty(), g.getEcts(), g.getMocKliku(), g.getDochodPasywny());
+
+    char *err = 0;
+    sqlite3_exec(handle, sql, 0, 0, &err);
+    if(err) {
+        sqlite3_free(err);
+        return false;
+    }
     return true;
 }
 
@@ -68,7 +83,17 @@ bool Database::wczytajStanGry(Game &g) {
 }
 
 bool Database::dodajDoRankingu(const std::string &nick, int sekundy) {
-    //TODO
+    sqlite3 *handle = (sqlite3*)db;
+    char sql[512];
+    snprintf(sql, sizeof(sql),
+        "INSERT INTO ranking (nick, sekundy) VALUES ('%s', %d);",
+        nick.c_str(), sekundy);
+    char *err = 0;
+    sqlite3_exec(handle, sql, 0, 0, &err);
+    if(err) {
+        sqlite3_free(err);
+        return false;
+    }
     return true;
 }
 
