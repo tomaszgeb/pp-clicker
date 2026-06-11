@@ -27,6 +27,7 @@ add_executable(pp-clicker
     src/main.cpp
     src/Game.cpp
     src/RandomEvent.cpp
+    src/Zdarzenia.cpp
     src/Database.cpp
     src/Timer.cpp
     src/Shop.cpp
