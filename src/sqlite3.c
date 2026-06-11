@@ -1,3 +1,8 @@
+/* 3rd party: https://sqlite.org/2024/sqlite-amalgamation-3470000.zip
+ * SQLite amalgamation pobrana ze strony sqlite.org
+ * Uzywamy do zapisu stanu gry i rankingu
+ * Kompiluje sie razem z naszym kodem nie wymaga osobnej instalacji
+ */
 /******************************************************************************
 ** This file is an amalgamation of many separate C source files from SQLite
 ** version 3.47.0.  By combining all the individual C code files into this

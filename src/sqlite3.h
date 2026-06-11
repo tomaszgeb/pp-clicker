@@ -1,3 +1,6 @@
+/* 3rd party: https://sqlite.org/2024/sqlite-amalgamation-3470000.zip
+ * Header SQLite amalgamation
+ */
 /*
 ** 2001-09-15
 **
