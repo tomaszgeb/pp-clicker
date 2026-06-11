@@ -77,9 +77,43 @@ bool Database::zapiszStanGry(Game &g) {
     return true;
 }
 
+// pomocnicza struktura do przekazania wyniku z callbacka
+struct DaneStanu {
+    int punkty;
+    int ects;
+    int mocKliku;
+    int dochodPasywny;
+    bool znaleziono;
+};
+
+// callback wywolywany przez sqlite3_exec dla kazdego wiersza
+static int callbackStan(void *data, int kolumn, char **wartosci, char **nazwy) {
+    DaneStanu *d = (DaneStanu*)data;
+    if(kolumn >= 4) {
+        d->punkty = wartosci[0] ? atoi(wartosci[0]) : 0;
+        d->ects = wartosci[1] ? atoi(wartosci[1]) : 0;
+        d->mocKliku = wartosci[2] ? atoi(wartosci[2]) : 1;
+        d->dochodPasywny = wartosci[3] ? atoi(wartosci[3]) : 0;
+        d->znaleziono = true;
+    }
+    return 0;
+}
+
 bool Database::wczytajStanGry(Game &g) {
-    //TODO
-    return false;
+    sqlite3 *handle = (sqlite3*)db;
+    DaneStanu d;
+    d.znaleziono = false;
+    d.punkty = 0; d.ects = 0; d.mocKliku = 1; d.dochodPasywny = 0;
+
+    sqlite3_exec(handle,
+        "SELECT punkty, ects, moc_kliku, dochod_pasywny FROM stan_gry WHERE id=1;",
+        callbackStan, &d, 0);
+
+    if(!d.znaleziono) return false;
+
+    // ustawiamy w Game caly stan naraz
+    g.ustawStan(d.punkty, d.ects, d.mocKliku, d.dochodPasywny);
+    return true;
 }
 
 bool Database::dodajDoRankingu(const std::string &nick, int sekundy) {

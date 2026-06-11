@@ -76,6 +76,14 @@ void Game::dodajDochodPasywny(int ile) {
     dochodPasywny += ile;
 }
 
+// ustawia caly stan naraz - uzywane przy wczytaniu z bazy
+void Game::ustawStan(int p, int e, int moc, int dochod) {
+    punkty = p;
+    ects = e;
+    mocKliku = moc;
+    dochodPasywny = dochod;
+}
+
 // odejmowanie ECTS - Zenon zabiera 35%
 void Game::odejmijEcts(int ile) {
     ects -= ile;

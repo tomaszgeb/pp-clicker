@@ -26,6 +26,9 @@ public:
     void dodajDochodPasywny(int ile);
     void ustawMnoznikCen(double m);
 
+    // do wczytywania stanu z bazy - Janek tego uzywa
+    void ustawStan(int p, int e, int moc, int dochod);
+
     // efekty czasowe (afera budzikowa - 30s polowiczny klik)
     void aktywujEfektPolowicznegoKliku(int sekund);
     void tickEfektyCzasowe();// timer Janka wola co 1s
