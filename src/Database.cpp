@@ -101,6 +101,7 @@ struct DaneStanu {
 
 // callback wywolywany przez sqlite3_exec dla kazdego wiersza
 static int callbackStan(void *data, int kolumn, char **wartosci, char **nazwy) {
+    (void)nazwy;//nieuzywane ale wymagane przez signature sqlite3
     DaneStanu *d = (DaneStanu*)data;
     if(kolumn >= 4) {
         d->punkty = wartosci[0] ? atoi(wartosci[0]) : 0;
@@ -154,6 +155,7 @@ struct DaneSklepu {
 };
 
 static int callbackSklep(void *data, int kolumn, char **wartosci, char **nazwy) {
+    (void)nazwy;//nieuzywane ale wymagane przez signature sqlite3
     DaneSklepu *d = (DaneSklepu*)data;
     if(kolumn >= 2 && wartosci[0] && wartosci[1]) {
         int idx = atoi(wartosci[0]);
@@ -188,8 +190,26 @@ bool Database::dodajDoRankingu(const std::string &nick, int sekundy) {
     return true;
 }
 
+// callback wywolywany przez sqlite3_exec dla kazdego wiersza z rankingiem
+static int callbackRanking(void *data, int kolumn, char **wartosci, char **nazwy) {
+    (void)nazwy;//nieuzywane ale wymagane przez signature sqlite3
+    std::vector<WpisRankingu> *v = (std::vector<WpisRankingu>*)data;
+    if(kolumn >= 2) {
+        WpisRankingu w;
+        w.nick = wartosci[0] ? wartosci[0] : "anon";
+        w.sekundy = wartosci[1] ? atoi(wartosci[1]) : 0;
+        v->push_back(w);
+    }
+    return 0;
+}
+
 std::vector<WpisRankingu> Database::pobierzRanking(int limit) {
     std::vector<WpisRankingu> wynik;
-    //TODO
+    sqlite3 *handle = (sqlite3*)db;
+    char sql[256];
+    // sortujemy rosnaco po sekundach (najszybsi na gorze)
+    snprintf(sql, sizeof(sql),
+        "SELECT nick, sekundy FROM ranking ORDER BY sekundy ASC LIMIT %d;", limit);
+    sqlite3_exec(handle, sql, callbackRanking, &wynik, 0);
     return wynik;
 }
