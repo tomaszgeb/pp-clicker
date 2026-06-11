@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Game.h"
+#include "Shop.h"
 
 // jeden wpis w rankingu (do leaderboard)
 struct WpisRankingu {
@@ -20,6 +21,10 @@ public:
 
     bool zapiszStanGry(Game &g);
     bool wczytajStanGry(Game &g);
+
+    // zapis i odczyt stanu sklepu (ilePosiadanych kazdego itemu)
+    bool zapiszStanSklepu(Shop &s);
+    bool wczytajStanSklepu(Shop &s);
 
     bool dodajDoRankingu(const std::string &nick, int sekundy);
     std::vector<WpisRankingu> pobierzRanking(int limit);

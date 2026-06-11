@@ -23,6 +23,7 @@ int main() {
 
     baza.init();
     baza.wczytajStanGry(gra);
+    baza.wczytajStanSklepu(sklep);//ile gracz mial kupione kazdego itemu
 
     GUI gui(&gra, &sklep);
     gGui = &gui;
@@ -33,5 +34,6 @@ int main() {
 
     timer.stop();
     baza.zapiszStanGry(gra);
+    baza.zapiszStanSklepu(sklep);//zachowujemy ilePosiadanych itemow
     return 0;
 }

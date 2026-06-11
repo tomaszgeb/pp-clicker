@@ -54,6 +54,19 @@ bool Database::init() {
         return false;
     }
 
+    // tabela stanu sklepu (ile kazdego itemu kupiles)
+    const char *sql3 =
+        "CREATE TABLE IF NOT EXISTS stan_sklepu ("
+        "idx INTEGER PRIMARY KEY,"
+        "ile_posiadanych INTEGER"
+        ");";
+    sqlite3_exec(handle, sql3, 0, 0, &err);
+    if(err) {
+        std::cerr << err << std::endl;
+        sqlite3_free(err);
+        return false;
+    }
+
     return true;
 }
 
@@ -113,6 +126,50 @@ bool Database::wczytajStanGry(Game &g) {
 
     // ustawiamy w Game caly stan naraz
     g.ustawStan(d.punkty, d.ects, d.mocKliku, d.dochodPasywny);
+    return true;
+}
+
+// zapis stanu sklepu, iterujemy po wszystkich itemach i wpisujemy ile_posiadanych
+bool Database::zapiszStanSklepu(Shop &s) {
+    sqlite3 *handle = (sqlite3*)db;
+    // czyscimy stara zawartosc
+    sqlite3_exec(handle, "DELETE FROM stan_sklepu;", 0, 0, 0);
+
+    for(int i = 0; i < s.liczbaItemow(); i++) {
+        ItemSklepu it = s.getItem(i);
+        char sql[256];
+        snprintf(sql, sizeof(sql),
+            "INSERT INTO stan_sklepu (idx, ile_posiadanych) VALUES (%d, %d);",
+            i, it.ilePosiadanych);
+        char *err = 0;
+        sqlite3_exec(handle, sql, 0, 0, &err);
+        if(err) { sqlite3_free(err); return false; }
+    }
+    return true;
+}
+
+// pomocnicza struktura na wynik wczytywania sklepu
+struct DaneSklepu {
+    Shop *sklep;
+};
+
+static int callbackSklep(void *data, int kolumn, char **wartosci, char **nazwy) {
+    DaneSklepu *d = (DaneSklepu*)data;
+    if(kolumn >= 2 && wartosci[0] && wartosci[1]) {
+        int idx = atoi(wartosci[0]);
+        int ile = atoi(wartosci[1]);
+        d->sklep->ustawIloscPosiadanych(idx, ile);
+    }
+    return 0;
+}
+
+bool Database::wczytajStanSklepu(Shop &s) {
+    sqlite3 *handle = (sqlite3*)db;
+    DaneSklepu d;
+    d.sklep = &s;
+    sqlite3_exec(handle,
+        "SELECT idx, ile_posiadanych FROM stan_sklepu;",
+        callbackSklep, &d, 0);
     return true;
 }
 
