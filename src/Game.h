@@ -1,8 +1,10 @@
 #ifndef GAME_H
 #define GAME_H
 
-// klasa gry - tu siedzi caly stan
+// klasa gry, tu siedzi caly stan
 // punkty ECTS moc klika itp
+// pola volatile bo Janek powiedzial ze inaczej dochod pasywny sie buguje
+// (timer chodzi w osobnym watku i bez volatile wartosci sie nie odswiezaja)
 class Game {
 public:
     Game();
@@ -39,14 +41,15 @@ public:
     bool czyKlatwa();
 
 private:
-    int punkty;
-    int ects;
-    int mocKliku;//ile dodaje jeden klik domyslnie 1
-    int dochodPasywny;//ile dodaje sie co sekunde
+    // volatile zeby kompilator nie cachowal wartosci miedzy watkami
+    volatile int punkty;
+    volatile int ects;
+    volatile int mocKliku;//ile dodaje jeden klik domyslnie 1
+    volatile int dochodPasywny;//ile dodaje sie co sekunde
 
-    int sekundyPolowicznegoKliku;//licznik efektu afery budzikowej
-    bool klatwa;
-    double mnoznikCen;//1.0 standard, > 1.0 po Lawce troski
+    volatile int sekundyPolowicznegoKliku;//licznik afery budzikowej
+    volatile bool klatwa;
+    double mnoznikCen;//1.0 standard, modyfikowane tylko z GUI watku
 
     static const int CENA_ECTS = 1000;
     static const int CEL_ECTS = 210;
