@@ -37,3 +37,8 @@ add_executable(pp-clicker
 
 target_include_directories(pp-clicker PRIVATE src)
 target_link_libraries(pp-clicker sfml-graphics sfml-window sfml-system)
+
+# kopiujemy folder assets do build directory zeby gra znalazla obrazki i czcionke
+# bez tego SFML wypisuje "brak assets/arial.ttf" bo szuka wzgledem .exe
+# (dziala na Windowsie w Qt Creator, na Macu/Linux tez nie szkodzi)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
