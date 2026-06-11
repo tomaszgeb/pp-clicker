@@ -44,16 +44,18 @@ void Timer::petla() {
         sekundyGry++;
         sekundyOdZdarzenia++;
 
-        // co min 60s probujemy odpalic zdarzenie losowe (30% szans)
-        if(sekundyOdZdarzenia >= 60) {
-            if((rand() % 100) < 30) {
+        // co 30s probujemy odpalic zdarzenie losowe (50% szans)
+        // resetujemy sekundyOdZdarzenia ZAWSZE, nie tylko gdy zdarzenie wystapi
+        // bez tego buga byly serie zdarzen w kazdej sekundzie
+        if(sekundyOdZdarzenia >= 30) {
+            if((rand() % 100) < 50) {
                 TypZdarzenia t = event->losujZdarzenie();
                 event->aplikuj(*gra, t);
                 if(callback) {
                     callback(t, event->opisDlaUI(t));
                 }
-                sekundyOdZdarzenia = 0;
             }
+            sekundyOdZdarzenia = 0;//ZAWSZE reset, bez tego buga byly serie
         }
     }
 }
