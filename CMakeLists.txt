@@ -1,14 +1,28 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.14)
 project(pp-clicker)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# SFML - jedyna zewnetrzna zaleznosc
-# jak nie znajdzie - ustaw SFML_DIR np. -DSFML_DIR=C:/SFML/lib/cmake/SFML
-find_package(SFML 2.6 COMPONENTS graphics window system REQUIRED)
+# probujemy znalezc SFML zainstalowany lokalnie
+# jak nie ma to CMake sciagnie go z GitHuba i sam skompiluje
+# zeby kazdy mial taka sama wersje 2.6.x
+find_package(SFML 2.6 COMPONENTS graphics window system QUIET)
+if(NOT SFML_FOUND)
+    message(STATUS "SFML nie znaleziony, pobieram z GitHuba (chwile to potrwa)")
+    include(FetchContent)
+    FetchContent_Declare(
+        SFML
+        GIT_REPOSITORY https://github.com/SFML/SFML.git
+        GIT_TAG 2.6.x
+    )
+    # wylaczamy modulki ktorych nie uzywamy zeby sie szybciej kompilowalo
+    set(SFML_BUILD_AUDIO OFF CACHE BOOL "" FORCE)
+    set(SFML_BUILD_NETWORK OFF CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(SFML)
+endif()
 
-# wszystkie nasze pliki + sqlite3 (amalgamation, dorzucone do repo)
+# wszystkie nasze pliki + sqlite3 jako amalgamation (kompiluje sie razem)
 add_executable(pp-clicker
     src/main.cpp
     src/Game.cpp
