@@ -2,7 +2,6 @@
 #define TIMER_H
 
 #include <thread>
-#include <atomic>
 #include "Game.h"
 #include "RandomEvent.h"
 
@@ -25,8 +24,8 @@ private:
     Game *gra;
     RandomEvent *event;
     std::thread watek;
-    std::atomic<bool> dziala;
-    std::atomic<int> sekundyGry;
+    volatile bool dziala;//flaga do zatrzymywania petli watku
+    volatile int sekundyGry;//licznik czasu gry, do rankingu
     CallbackZdarzenia callback;
 
     void petla();
